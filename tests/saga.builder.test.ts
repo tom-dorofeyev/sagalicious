@@ -103,6 +103,24 @@ describe('SagaBuilder', () => {
 
       expect(result).toBe(builder);
     });
+
+    test('builds saga with handler using direct config object', async () => {
+      const executeFn = jest.fn();
+      const saga = createSaga()
+        .handler({
+          type: 'payment',
+          execute: executeFn,
+          rollback: async () => {},
+        })
+        .build();
+
+      await saga.execute([{ type: 'payment', amount: 100 } as PaymentCommand]);
+
+      expect(executeFn).toHaveBeenCalledWith(
+        { type: 'payment', amount: 100 },
+        expect.any(Object),
+      );
+    });
   });
 
   describe('processor', () => {
