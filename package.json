@@ -1,6 +1,6 @@
 {
   "name": "sagalicious",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Orchestration-based Saga pattern implementation for TypeScript. Coordinate distributed transactions across databases, microservices, and APIs with automatic compensation on failure.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
