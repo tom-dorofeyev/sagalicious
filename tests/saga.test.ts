@@ -195,6 +195,20 @@ describe('Saga', () => {
       expect(firstProcessor.process).toHaveBeenCalled();
       expect(secondProcessor.process).not.toHaveBeenCalled();
     });
+
+    test('rejects commit when transaction has no ID', async () => {
+      const saga = new Saga({ processors: [processor] });
+      const uninitializedTransaction = {
+        status: TransactionStatus.Pending,
+        commands: [{ type: 'test-command', value: 'test' }] as TestCommand[],
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      } as any;
+
+      await expect(saga.commitTransaction(uninitializedTransaction)).rejects.toThrow(
+        'Only initialized transactions can be processed',
+      );
+    });
   });
 
   describe('rollBackTransaction', () => {
