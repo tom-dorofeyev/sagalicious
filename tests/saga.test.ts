@@ -346,6 +346,15 @@ describe('Saga', () => {
       expect(processor.rollBack).toHaveBeenNthCalledWith(2, commands[1], expect.any(Object));
       expect(processor.rollBack).toHaveBeenNthCalledWith(3, commands[0], expect.any(Object));
     });
+
+    test('throws error when rollback itself fails', async () => {
+      processor.process.mockRejectedValueOnce(new Error('Command failed'));
+      processor.rollBack.mockRejectedValueOnce(new Error('Rollback failed'));
+      const saga = new Saga({ processors: [processor] });
+      const commands: TestCommand[] = [{ type: 'test-command', value: 'test' }];
+
+      await expect(saga.execute(commands)).rejects.toThrow('Rollback failed');
+    });
   });
 
   describe('processor routing', () => {
