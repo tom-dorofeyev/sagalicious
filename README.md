@@ -1,7 +1,7 @@
 # Sagalicious
 
 > **Orchestration-based Saga pattern for TypeScript**
-> Coordinate distributed transactions with automatic compensation. Built by [@tom-dorofeyev](https://github.com/tom-dorofeyev)
+> Coordinate distributed transactions with automatic compensation
 
 [![npm version](https://img.shields.io/npm/v/sagalicious.svg)](https://www.npmjs.com/package/sagalicious)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -380,47 +380,6 @@ expect(mockPayment).toHaveBeenCalledWith(
 );
 ```
 
-## About the Name
-
-**Sagalicious** combines "saga" (the distributed transaction pattern) with "licious" to convey that implementing the Saga pattern can be delightful and elegant. The name reflects the smooth, developer-friendly experience of orchestrating complex distributed transactions with automatic compensation.
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-### Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run tests
-npm test
-
-# Build
-npm run build
-
-# Lint
-npm run lint
-```
-
-## Roadmap
-
-- [ ] Timeout support for long-running transactions
-- [ ] Retry mechanisms with exponential backoff
-- [ ] Transaction visualization/debugging tools
-- [ ] Additional repository implementations (PostgreSQL, MongoDB, Redis)
-- [ ] Performance metrics and monitoring hooks
-
-## Author
-
-**Tom Dorofeyev**
-- GitHub: [@tom-dorofeyev](https://github.com/tom-dorofeyev)
-
 ## License
 
-MIT © Tom Dorofeyev
-
----
-
-**Built with ❤️ for distributed systems developers**
+MIT
