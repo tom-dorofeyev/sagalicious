@@ -325,6 +325,27 @@ describe('Saga', () => {
 
       expect(transaction.metadata).toEqual(metadata);
     });
+
+    test('rolls back all commands in reverse order when execution fails partway through', async () => {
+      const saga = new Saga({ processors: [processor] });
+      const commands: TestCommand[] = [
+        { type: 'test-command', value: 'first' },
+        { type: 'test-command', value: 'second' },
+        { type: 'test-command', value: 'third' },
+      ];
+
+      processor.process
+        .mockResolvedValueOnce(undefined)
+        .mockResolvedValueOnce(undefined)
+        .mockRejectedValueOnce(new Error('Third command failed'));
+
+      await expect(saga.execute(commands)).rejects.toThrow('Third command failed');
+
+      expect(processor.rollBack).toHaveBeenCalledTimes(3);
+      expect(processor.rollBack).toHaveBeenNthCalledWith(1, commands[2], expect.any(Object));
+      expect(processor.rollBack).toHaveBeenNthCalledWith(2, commands[1], expect.any(Object));
+      expect(processor.rollBack).toHaveBeenNthCalledWith(3, commands[0], expect.any(Object));
+    });
   });
 
   describe('processor routing', () => {
