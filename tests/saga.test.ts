@@ -276,12 +276,21 @@ describe('Saga', () => {
 
     test('automatically rolls back transaction when command execution fails', async () => {
       processor.process.mockRejectedValueOnce(new Error('Command execution failed'));
-      const saga = new Saga({ processors: [processor] });
+      const saga = new Saga({
+        processors: [processor],
+        repository,
+      });
       const commands: TestCommand[] = [{ type: 'test-command', value: 'test' }];
 
       await expect(saga.execute(commands)).rejects.toThrow('Command execution failed');
 
       expect(processor.rollBack).toHaveBeenCalled();
+      expect(repository.findByIdAndUpdate).toHaveBeenCalledWith(
+        expect.any(String),
+        expect.objectContaining({
+          status: TransactionStatus.RolledBack,
+        }),
+      );
     });
 
     test('propagates original error after automatic rollback', async () => {
